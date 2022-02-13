@@ -2,8 +2,6 @@
 
 ## Introduction
 
----
-
 I wanted to try making this simple genetic program after watching [this youtube video](https://www.youtube.com/watch?v=N3tRFayqVtk) from davidrandallmiller
 
 This was made with Processing Java 
@@ -23,8 +21,6 @@ Then you wait a few hundred generations and pray the dots make it to the target.
 <br/>
 
 ## Files
-
----
 
 first_genetic.pde
 - the main file
@@ -62,20 +58,25 @@ Utils.pde
 
 ## Video Snapshots
 
----
+<br/>
 
 The dots survive by ending up on the right half of the screen. Collision is turned on.
 ![](attachments/right_half.gif)
 
----
+<br/>
+<br/>
 
 The dots survive by being within a certain radius of the center of the screen. Collision is turned off.
 ![](attachments/center.gif)
 
----
+<br/>
+<br/>
 
 The dots survive by going to either to top left corner of bottom right corner of the screen. Collision is turned off
 ![](attachments/two_corners.gif)
+
+<br/>
+<br/>
 
 ## Results
 
