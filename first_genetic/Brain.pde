@@ -1,11 +1,11 @@
 class Brain {
   
-  final float mutateRate = 0.01f;
+  final float mutateRate = 0.05f;
   
   final int numGenes = 32;
   ArrayList<Gene> genome;
   
-  final int numHiddenNeurons = 16;
+  final int numHiddenNeurons = 4;
   ArrayList<Neuron> hiddenNeurons;
 
   Neuron sensePosX;
@@ -54,10 +54,6 @@ class Brain {
     
     // sort gene - (input, internal, output)
     Utils.sort(genome);
-
-    // for (Gene g : genome) {
-    //   System.out.println(g);
-    // }
 
   }
 
@@ -166,5 +162,55 @@ class Brain {
     // add a new gene
     createGene();
   }
+
+  public JSONObject toJSON() {
+    JSONObject json = new JSONObject();
+
+    json.setInt("numGenes", numGenes);
+    json.setInt("numHiddenNeurons", numHiddenNeurons);
+
+    JSONArray arr = new JSONArray();
+    for (int i=0;i<genome.size();i++) {
+      arr.setJSONObject(i, genome.get(i).toJSON());
+    }
+    json.setJSONArray("genome", arr);
+    
+    return json;
+  }
+
+
+  void loadJSON(JSONObject json) {
+    genome = new ArrayList<Gene>();
+
+    JSONArray arr = json.getJSONArray("genome");
+    
+    // inherit genes from parent
+    for (int i=0;i<arr.size();i++) {
+      JSONObject obj = arr.getJSONObject(i);
+
+      String sourceStr = obj.getString("source");
+      String sinkStr = obj.getString("sink");
+      float weight = obj.getFloat("weight");
+
+      Neuron source = null;
+      Neuron sink = null;
+      for (Neuron n : allNeurons) {
+        if (n.name.equals(sourceStr)) {
+          source = n;
+          break;
+        }
+      }
+      for (Neuron n : allNeurons) {
+        if (n.name.equals(sinkStr)) {
+          sink = n;
+          break;
+        }
+      }
+      assert(source != null);
+      assert(sink != null);
+      genome.add(new Gene(this, source, sink, weight));
+    }
+  } 
+
 
 }

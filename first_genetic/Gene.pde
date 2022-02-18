@@ -35,6 +35,14 @@ class Gene implements Comparable<Gene> {
     }
   }
 
+  public JSONObject toJSON() {
+    JSONObject json = new JSONObject();
+    json.setString("source", source.name);
+    json.setString("sink", sink.name);
+    json.setFloat("weight", weight);
+    return json;
+  }
+
   @Override
   public String toString() {
     return "Gene{\n" +
