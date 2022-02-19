@@ -85,8 +85,7 @@ Collision affects the results drastically as the dots can get stuck to each othe
 When the dots form a pattern after a hundred generations or so, it's difficult for them to change their pattern. I think this could be due to a low mutation rate (I haven't checked yet) or the way dots inherit from their parents could be weird. 
 
 ## Todo (may or may not do them)
-- [ ] save and load the population
-- [ ] test mutation rate
+- [x] save and load the population
 - [ ] change the way dots inherit from their parents
 - [ ] new sensor or output neurons
   - [ ] random neuron

@@ -2,10 +2,10 @@ class Brain {
   
   final float mutateRate = 0.05f;
   
-  final int numGenes = 32;
+  int numGenes;
   ArrayList<Gene> genome;
   
-  final int numHiddenNeurons = 4;
+  int numHiddenNeurons;
   ArrayList<Neuron> hiddenNeurons;
 
   Neuron sensePosX;
@@ -20,31 +20,16 @@ class Brain {
   Body body;
 
   long time;
-
+ 
   Brain(Body body, Brain parent) {
+    this(body, parent, 32, 4);
+  }
+
+  Brain(Body body, Brain parent, int numGenes, int numHiddenNeurons) {
     this.time = 0;
     this.body = body;
 
-    this.sensePosX = new Neuron(this, "sensePosX", NeuronType.INPUT);
-    this.sensePosY = new Neuron(this, "sensePosY", NeuronType.INPUT);
-    this.senseOsc = new Neuron(this, "senseOsc", NeuronType.INPUT);
-    
-    this.hiddenNeurons = new ArrayList<Neuron>();
-    for (int i=0;i<numHiddenNeurons;i++) {
-      this.hiddenNeurons.add(
-        new Neuron(this, "hidden", NeuronType.HIDDEN, i));
-    }
-    
-    this.moveX = new Neuron(this, "moveX", NeuronType.OUTPUT);
-    this.moveY = new Neuron(this, "moveY", NeuronType.OUTPUT);
-
-    this.allNeurons = new ArrayList<Neuron>();
-    this.allNeurons.add(this.sensePosX);
-    this.allNeurons.add(this.sensePosY);
-    this.allNeurons.add(this.senseOsc);
-    this.allNeurons.add(this.moveX);
-    this.allNeurons.add(this.moveY);
-    this.allNeurons.addAll(this.hiddenNeurons);
+    setup(numGenes, numHiddenNeurons);
 
     this.genome = new ArrayList<Gene>();
 
@@ -129,7 +114,9 @@ class Brain {
     return allNeurons.get((int)(random(allNeurons.size())));
   }
 
-  void inherit(Brain parent) {
+  void inherit(Brain parent) { 
+    setup(parent.numGenes, parent.numHiddenNeurons);
+
     // inherit genes from parent
     for (Gene g : parent.genome) {
       Neuron source = null;
@@ -166,7 +153,6 @@ class Brain {
   public JSONObject toJSON() {
     JSONObject json = new JSONObject();
 
-    json.setInt("numGenes", numGenes);
     json.setInt("numHiddenNeurons", numHiddenNeurons);
 
     JSONArray arr = new JSONArray();
@@ -178,14 +164,16 @@ class Brain {
     return json;
   }
 
-
   void loadJSON(JSONObject json) {
     genome = new ArrayList<Gene>();
 
-    JSONArray arr = json.getJSONArray("genome");
+    JSONArray arr = json.getJSONArray("genome");  
+
+    // setup all neurons
+    setup(arr.size(), json.getInt("numHiddenNeurons"));
     
     // inherit genes from parent
-    for (int i=0;i<arr.size();i++) {
+    for (int i=0;i<numGenes;i++) {
       JSONObject obj = arr.getJSONObject(i);
 
       String sourceStr = obj.getString("source");
@@ -212,5 +200,30 @@ class Brain {
     }
   } 
 
+  void setup(int numGenes, int numHiddenNeurons) {
+    this.numGenes = numGenes;
+    this.numHiddenNeurons = numHiddenNeurons;
+
+    this.sensePosX = new Neuron(this, "sensePosX", NeuronType.INPUT);
+    this.sensePosY = new Neuron(this, "sensePosY", NeuronType.INPUT);
+    this.senseOsc = new Neuron(this, "senseOsc", NeuronType.INPUT);
+    
+    this.hiddenNeurons = new ArrayList<Neuron>();
+    for (int i=0;i<numHiddenNeurons;i++) {
+      this.hiddenNeurons.add(
+        new Neuron(this, "hidden", NeuronType.HIDDEN, i));
+    }
+    
+    this.moveX = new Neuron(this, "moveX", NeuronType.OUTPUT);
+    this.moveY = new Neuron(this, "moveY", NeuronType.OUTPUT);
+
+    this.allNeurons = new ArrayList<Neuron>();
+    this.allNeurons.add(this.sensePosX);
+    this.allNeurons.add(this.sensePosY);
+    this.allNeurons.add(this.senseOsc);
+    this.allNeurons.add(this.moveX);
+    this.allNeurons.add(this.moveY);
+    this.allNeurons.addAll(this.hiddenNeurons);
+  }
 
 }

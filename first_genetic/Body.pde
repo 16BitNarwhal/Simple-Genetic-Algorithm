@@ -77,7 +77,7 @@ class Body {
 
   // collision
   boolean touchBody() {
-    for (Body d : bodies) {
+    for (Body d : bodiesRef) {
       if (d != this && d.pos.dist(pos) <= speed) {
         return true;
       }
