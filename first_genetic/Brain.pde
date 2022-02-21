@@ -62,12 +62,15 @@ class Brain {
     feedforward();
 
     // update body
+    int dx = 0;
     if (random(1) < abs(moveX.get())) {
-      body.moveX(moveX.get() < 0 ? -1 : 1); 
+      dx = moveX.get() > 0 ? 1 : -1;
     }
+    int dy = 0;
     if (random(1) < abs(moveY.get())) {
-      body.moveY(moveY.get()<0 ? -1 : 1);
+      dy = moveY.get() > 0 ? 1 : -1;
     }
+    body.move(dx, dy);
     
     // System.out.println(moveX.get() + " " + moveY.get());
 

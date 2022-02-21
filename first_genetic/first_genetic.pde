@@ -4,8 +4,8 @@ String savePrefix = "gen_A";
 HashMap<Integer, Boolean> keyMap = new HashMap<Integer, Boolean>();
 
 void setup() {
-  size(800, 800);
-  pop = new Population("gen_500");
+  size(896, 1024); // (7*128, 1024)
+  pop = new Population(1000);
 }
 
 int lastSaved = 0;

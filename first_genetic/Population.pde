@@ -1,7 +1,6 @@
 class Population {
   ArrayList<Body> bodies;
-  int numBodies;
-  final int stepsPerGen = 210;
+  int numBodies; 
 
   int gen;
   int steps;
@@ -35,7 +34,7 @@ class Population {
   }
 
   void run() {
-    if (steps == stepsPerGen) {
+    if (steps == STEPSPERGEN) {
       ArrayList<Body> survivors = new ArrayList<Body>();
       for (Body d : bodies) {
         d.naturalSelection();

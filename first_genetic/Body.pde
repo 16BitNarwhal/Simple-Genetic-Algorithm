@@ -1,11 +1,10 @@
 class Body {
   
   // if true, bodies will block and collide with each other
-  static final boolean doCollision = false; // will probably turn on when dots can detect each other
+  static final boolean doCollision = true; // will probably turn on when dots can detect each other
   
   ArrayList<Body> bodiesRef;
   Brain brain;
-  public static final int speed = 2;
   PVector pos; 
   public boolean alive = true;
 
@@ -44,57 +43,34 @@ class Body {
     naturalSelection();
     if (alive) fill(0, 255, 0);
     else fill(255, 0, 0);
-    circle(pos.x, pos.y, speed);
+    circle(pos.x*SCALE + SCALE/2, pos.y*SCALE + SCALE/2, SCALE);
   }
 
-  void moveX(int dx) {
-    dx *= speed;
-    pos.x += dx;
-    if (pos.x >= width - speed) {
-      pos.x = width - speed;
-    } else if (pos.x <= speed) {
-      pos.x = speed;
+  void move(int dx, int dy) {
+    int x = (int)pos.x + dx;
+    int y = (int)pos.y + dy;
+    if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT) {
+      return; // don't move if out of bounds
+    } else if (doCollision && occupied[x][y] != null) {
+      return; // don't move if occupied by another
+    } else {
+      occupied[(int)pos.x][(int)pos.y] = null;
+      pos.x = x;
+      pos.y = y;
+      occupied[(int)pos.x][(int)pos.y] = this;
     }
-    // if new pos touching another body, undo move
-    if (touchBody()) {
-      pos.x -= dx;
-    }
-  }
-
-  void moveY(int dy) {
-    dy *= speed;
-    pos.y += dy;
-    if (pos.y >= height - speed) {
-      pos.y = height - speed;
-    } else if (pos.y <= speed) {
-      pos.y = speed;
-    }
-    // if new pos touching another body, undo move
-    if (doCollision && touchBody()) {
-      pos.y -= dy;
-    }
-  }
-
-  // collision
-  boolean touchBody() {
-    for (Body d : bodiesRef) {
-      if (d != this && d.pos.dist(pos) <= speed) {
-        return true;
-      }
-    }
-    return false;
   }
 
   void naturalSelection() {
     // // right half of screen survives
-    // if (pos.x >= width/2) {
+    // if (pos.x >= WIDTH/2) {
     //   alive = true;
     // } else {
     //   alive = false;
     // }
 
     // // circle radius 200 at center of screen
-    // PVector center = new PVector(width/2, height/2);
+    // PVector center = new PVector(WIDTH/2, HEIGHT/2);
     // if (pos.dist(center) <= 200) {
     //   alive = true;
     // } else {
@@ -102,13 +78,13 @@ class Body {
     // }
 
     // top left and bottom right corner
-    if (pos.x <= width/3 && pos.y <= height/3) {
+    if (pos.x <= WIDTH/3 && pos.y <= HEIGHT/3) {
       alive = true;
-    } else if (pos.x >= width-width/3 && pos.y >= height-height/3) {
+    } else if (pos.x >= WIDTH-WIDTH/3 && pos.y >= HEIGHT-HEIGHT/3) {
       alive = true;
-    } else if (pos.x >= width-width/3 && pos.y <= height/3) {
+    } else if (pos.x >= WIDTH-WIDTH/3 && pos.y <= HEIGHT/3) {
       alive = true;
-    } else if (pos.x <= width/3 && pos.y >= height-height/3) {
+    } else if (pos.x <= WIDTH/3 && pos.y >= HEIGHT-HEIGHT/3) {
       alive = true;
     } else {
       alive = false;
@@ -116,8 +92,8 @@ class Body {
   }
 
   PVector getRandomPos() {
-    int x = Math.round(random(0, width) / Body.speed) * Body.speed;
-    int y = Math.round(random(0, height) / Body.speed) * Body.speed;
+    int x = Math.round(random(0, WIDTH-1));
+    int y = Math.round(random(0, HEIGHT-1));
     return new PVector(x, y);
   }
 
