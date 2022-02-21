@@ -1,6 +1,6 @@
 static enum NeuronType {
-  INPUT, 
-  HIDDEN, 
+  INPUT,
+  HIDDEN,
   OUTPUT
 }
 
@@ -20,6 +20,7 @@ class Neuron {
     if (id != -1) this.name += String.valueOf(id);
     this.type = type;
     this.hiddenId = id;
+    this.brain.allNeurons.add(this);
   }
 
   Neuron(Brain brain, String name, NeuronType type) {

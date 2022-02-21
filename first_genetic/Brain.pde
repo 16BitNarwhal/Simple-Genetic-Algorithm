@@ -8,10 +8,15 @@ class Brain {
   int numHiddenNeurons;
   ArrayList<Neuron> hiddenNeurons;
 
+  // sensor neurons
   Neuron sensePosX;
   Neuron sensePosY;
   Neuron senseOsc;
-  
+  Neuron senseRand;
+  Neuron lastMoveX;
+  Neuron lastMoveY;
+
+  // output neurons
   Neuron moveX;
   Neuron moveY;
 
@@ -50,6 +55,7 @@ class Brain {
     sensePosX.reset();
     sensePosY.reset();
     senseOsc.reset();
+    senseRand.reset();
     moveX.reset();
     moveY.reset();
     
@@ -57,6 +63,7 @@ class Brain {
     sensePosX.add(body.pos.x / width);
     sensePosY.add(body.pos.y / height);
     senseOsc.add(sin(time));
+    senseRand.add(random(-1, 1));
 
     // feedforward
     feedforward();
@@ -71,6 +78,11 @@ class Brain {
       dy = moveY.get() > 0 ? 1 : -1;
     }
     body.move(dx, dy);
+    
+    lastMoveX.reset();
+    lastMoveY.reset();
+    lastMoveX.add(dx);
+    lastMoveY.add(dy);
     
     // System.out.println(moveX.get() + " " + moveY.get());
 
@@ -100,7 +112,8 @@ class Brain {
     while (source.type == NeuronType.INPUT && sink.type == NeuronType.INPUT) {
       sink = getRandomNeuron();
     }
-    while (source.type == NeuronType.OUTPUT && sink.type == NeuronType.OUTPUT) {
+    while (source.type == NeuronType.OUTPUT && sink.type == NeuronType.OUTPUT
+          && source.name == sink.name) {
       source = getRandomNeuron();
     }
     if (sink.getOrder() < source.getOrder()) {
@@ -206,10 +219,15 @@ class Brain {
   void setup(int numGenes, int numHiddenNeurons) {
     this.numGenes = numGenes;
     this.numHiddenNeurons = numHiddenNeurons;
+    this.allNeurons = new ArrayList<Neuron>();
 
     this.sensePosX = new Neuron(this, "sensePosX", NeuronType.INPUT);
     this.sensePosY = new Neuron(this, "sensePosY", NeuronType.INPUT);
     this.senseOsc = new Neuron(this, "senseOsc", NeuronType.INPUT);
+    this.senseRand = new Neuron(this, "senseRand", NeuronType.INPUT);
+
+    this.lastMoveX = new Neuron(this, "lastMoveX", NeuronType.INPUT);
+    this.lastMoveY = new Neuron(this, "lastMoveY", NeuronType.INPUT);
     
     this.hiddenNeurons = new ArrayList<Neuron>();
     for (int i=0;i<numHiddenNeurons;i++) {
@@ -219,14 +237,7 @@ class Brain {
     
     this.moveX = new Neuron(this, "moveX", NeuronType.OUTPUT);
     this.moveY = new Neuron(this, "moveY", NeuronType.OUTPUT);
-
-    this.allNeurons = new ArrayList<Neuron>();
-    this.allNeurons.add(this.sensePosX);
-    this.allNeurons.add(this.sensePosY);
-    this.allNeurons.add(this.senseOsc);
-    this.allNeurons.add(this.moveX);
-    this.allNeurons.add(this.moveY);
-    this.allNeurons.addAll(this.hiddenNeurons);
+ 
   }
 
 }

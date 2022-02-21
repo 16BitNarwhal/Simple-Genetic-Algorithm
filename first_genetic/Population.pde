@@ -16,7 +16,7 @@ class Population {
     this.numBodies = numBodies;
     bodies = new ArrayList<Body>();
     for (int i=0;i<numBodies;i++) {
-      bodies.add(new Body(bodies));
+      bodies.add(new Body());
     }
     gen=0;
     steps=0;
@@ -47,7 +47,7 @@ class Population {
       ArrayList<Body> newBodies = new ArrayList<Body>();
       for (int i=0;i<numBodies;i++) {
         Body parent = survivors.get((int)random(survivors.size()));
-        newBodies.add(new Body(bodies, parent));
+        newBodies.add(new Body(parent));
       }
       bodies = newBodies;
       gen++;

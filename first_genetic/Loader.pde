@@ -13,7 +13,7 @@ class Loader {
     JSONArray arr = json.getJSONArray("population");
     bodies = new ArrayList<Body>();
     for (int i=0;i<arr.size();i++) { 
-      Body body = new Body(bodies, arr.getJSONObject(i));
+      Body body = new Body(arr.getJSONObject(i));
       bodies.add(body);
     }
   }

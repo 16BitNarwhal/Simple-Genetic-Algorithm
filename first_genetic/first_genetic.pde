@@ -4,7 +4,7 @@ String savePrefix = "gen_A";
 HashMap<Integer, Boolean> keyMap = new HashMap<Integer, Boolean>();
 
 void setup() {
-  size(896, 1024); // (7*128, 1024)
+  size(896, 952); // (7*128, )
   pop = new Population(1000);
 }
 
@@ -14,9 +14,7 @@ void draw() {
 
   pop.run(); // run simulation
 
-  if (mousePressed && (mouseButton == LEFT)) {
-    showStats();
-  }
+  showStats();
 
   // automatic save
   if (pop.gen%100==0 && pop.steps==0) {
@@ -36,10 +34,10 @@ void draw() {
 }
 
 void showStats() {
-  textSize(48);
+  textSize(32);
   fill(0);
-  text("Gen: " + pop.gen, 20, height-20);
-  text("Result: " + pop.result, 20, height-60);
+  text("Gen: " + pop.gen, width/2, height-15);
+  text("Prev Result: " + pop.result, 20, height-15);
 }
 
 void keyPressed() {
