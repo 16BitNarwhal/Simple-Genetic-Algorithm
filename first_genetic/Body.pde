@@ -60,12 +60,12 @@ class Body {
   }
 
   void naturalSelection() {
-    // // right half of screen survives
-    // if (pos.x >= WIDTH-WIDTH/8) {
-    //   alive = true;
-    // } else {
-    //   alive = false;
-    // }
+    // right half of screen survives
+    if (pos.x >= WIDTH-WIDTH/8) {
+      alive = true;
+    } else {
+      alive = false;
+    }
 
     // // circle at center of screen
     // PVector center = new PVector(WIDTH/2, HEIGHT/2);
@@ -75,18 +75,18 @@ class Body {
     //   alive = false;
     // }
 
-    // four corners
-    if (pos.x <= WIDTH/3 && pos.y <= HEIGHT/3) {
-      alive = true;
-    } else if (pos.x >= WIDTH-WIDTH/3 && pos.y >= HEIGHT-HEIGHT/3) {
-      alive = true;
-    } else if (pos.x >= WIDTH-WIDTH/3 && pos.y <= HEIGHT/3) {
-      alive = true;
-    } else if (pos.x <= WIDTH/3 && pos.y >= HEIGHT-HEIGHT/3) {
-      alive = true;
-    } else {
-      alive = false;
-    }
+    // // four corners
+    // if (pos.x <= WIDTH/3 && pos.y <= HEIGHT/3) {
+    //   alive = true;
+    // } else if (pos.x >= WIDTH-WIDTH/3 && pos.y >= HEIGHT-HEIGHT/3) {
+    //   alive = true;
+    // } else if (pos.x >= WIDTH-WIDTH/3 && pos.y <= HEIGHT/3) {
+    //   alive = true;
+    // } else if (pos.x <= WIDTH/3 && pos.y >= HEIGHT-HEIGHT/3) {
+    //   alive = true;
+    // } else {
+    //   alive = false;
+    // }
   }
 
   PVector getRandomPos() {

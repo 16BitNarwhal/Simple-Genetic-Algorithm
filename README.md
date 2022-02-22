@@ -87,10 +87,9 @@ When the dots form a pattern after a hundred generations or so, it's difficult f
 ## Todo (may or may not do them)
 - [x] save and load the population
 - [ ] change the way dots inherit from their parents
-- [ ] new sensor or output neurons
-  - [ ] random neuron
+- [x] new sensor or output neurons
+  - [x] random neuron
   - [ ] detect nearby dots
-  - [ ] movement speed
 - [ ] add fitness
 - [ ] make GUI
-- [ ] visualize previous simulations
+- [ ] visualize network
