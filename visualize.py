@@ -7,7 +7,7 @@ import networkx as nx
 import matplotlib.pyplot as plt 
 
 SAVE_DIR = './saves/'
-FILE_NAME = 'gen_B129'
+FILE_NAME = 'simple_109'
 
 with open(SAVE_DIR + FILE_NAME + '.json', 'r') as f:
   data = json.load(f)

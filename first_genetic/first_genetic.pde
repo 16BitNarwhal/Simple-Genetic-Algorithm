@@ -1,11 +1,11 @@
 Population pop;
-String savePrefix = "gen_B";
+String savePrefix = "simple_";
 
 HashMap<Integer, Boolean> keyMap = new HashMap<Integer, Boolean>();
 
 void setup() {
   size(896, 952); // (7*128, )
-  pop = new Population("gen_B129");
+  pop = new Population(1000);
 }
 
 int lastSaved = 0;

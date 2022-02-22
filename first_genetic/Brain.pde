@@ -29,7 +29,7 @@ class Brain {
   long time;
  
   Brain(Body body, Brain parent) {
-    this(body, parent, 64, 8);
+    this(body, parent, 4, 1);
   }
 
   Brain(Body body, Brain parent, int numGenes, int numHiddenNeurons) {
@@ -114,12 +114,11 @@ class Brain {
   void createGene() {
     // choose random neuron from allNeurons
     Neuron source = getRandomNeuron();
-    Neuron sink = getRandomNeuron();
-    while (source.type == NeuronType.INPUT && sink.type == NeuronType.INPUT) {
+    Neuron sink = getRandomNeuron(); 
+    while (sink.type == NeuronType.INPUT) {
       sink = getRandomNeuron();
     }
-    while (source.type == NeuronType.OUTPUT && sink.type == NeuronType.OUTPUT
-          && source.name == sink.name) {
+    while (source.type == NeuronType.OUTPUT || source.name == sink.name) {
       source = getRandomNeuron();
     }
     if (sink.getOrder() < source.getOrder()) {
