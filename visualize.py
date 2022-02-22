@@ -17,7 +17,7 @@ pop = data['population']
 genome = random.choice(pop)['genome']
 
 nodes = ()
-neuron_to_colour = {
+neuron_to_color = {
   'sensePosX': '#32CD32',
   'sensePosY': '#32CD32',
   'senseOsc': '#32CD32',
@@ -33,34 +33,42 @@ neuron_to_colour = {
 g = nx.DiGraph() 
     
 # for gene in genome:
-#   if gene['source'] not in neuron_to_colour:
+#   if gene['source'] not in neuron_to_color:
 #     g.addNode(gene['source'], 'blue')
 #   else:
-#     g.addNode(gene['source'], neuron_to_colour[gene['source']])
+#     g.addNode(gene['source'], neuron_to_color[gene['source']])
 
-#   if gene['sink'] not in neuron_to_colour:
+#   if gene['sink'] not in neuron_to_color:
 #     g.addNode(gene['sink'], 'blue')
 #   else:
-#     g.addNode(gene['sink'], neuron_to_colour[gene['sink']])
+#     g.addNode(gene['sink'], neuron_to_color[gene['sink']])
 
 edges = []
 for gene in genome:
-  edges.append((gene['source'], gene['sink'], gene['weight']))
-
-  if gene['source'] == 'hidden1' or gene['source'] == 'hidden2' \
-    or gene['source'] == 'hidden3' or gene['source'] == 'hidden0':
-    print(gene['sink'])
+  # edges.append((gene['source'], gene['sink'], gene['weight']))
+  g.add_edge(gene['source'], gene['sink'], weight=gene['weight'])
   
-g.add_weighted_edges_from(edges)
+# g.add_weighted_edges_from(edges)
 
-color_map = []
+node_colors = []
 for node in g:
-  if node in neuron_to_colour:
-    color_map.append(neuron_to_colour[node])
+  if node in neuron_to_color:
+    node_colors.append(neuron_to_color[node])
   else:
-    color_map.append('yellow')
+    node_colors.append('yellow')
 
-# i dont know why its not showing weights
-# also graph really ugly
-nx.draw_networkx(g, node_color=color_map, with_labels=True)
+weights = []
+edge_colors = []
+for u, v, w in g.edges(data=True):
+  weights.append(abs(w['weight'])*2)
+  if w['weight'] < 0:
+    edge_colors.append('red') # neg weight
+  else:
+    edge_colors.append('black') # pos weight
+
+pos = nx.layout.shell_layout(g)
+nx.draw_networkx_labels(g, pos)
+nx.draw_networkx_nodes(g, pos, node_color=node_colors)
+nx.draw_networkx_edges(g, pos, edge_color=edge_colors, width=weights)
+
 plt.show()
