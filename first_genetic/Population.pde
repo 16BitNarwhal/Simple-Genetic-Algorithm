@@ -44,6 +44,8 @@ class Population {
       for (int i=bodies.size()-1;i>=0;i--) {
         if (!bodies.get(i).alive) bodies.remove(i);
       }
+      
+      occupied = new Body[WIDTH][HEIGHT];
       ArrayList<Body> newBodies = new ArrayList<Body>();
       for (int i=0;i<numBodies;i++) {
         Body parent = survivors.get((int)random(survivors.size()));

@@ -15,10 +15,12 @@ class Brain {
   Neuron senseRand;
   Neuron lastMoveX;
   Neuron lastMoveY;
+  Neuron senseMemory;
 
   // output neurons
   Neuron moveX;
   Neuron moveY;
+  Neuron outMemory;
 
   ArrayList<Neuron> allNeurons;
 
@@ -27,7 +29,7 @@ class Brain {
   long time;
  
   Brain(Body body, Brain parent) {
-    this(body, parent, 32, 4);
+    this(body, parent, 64, 8);
   }
 
   Brain(Body body, Brain parent, int numGenes, int numHiddenNeurons) {
@@ -67,6 +69,10 @@ class Brain {
 
     // feedforward
     feedforward();
+
+    // update memory
+    senseMemory.reset();
+    senseMemory.add(outMemory.get());
 
     // update body
     int dx = 0;
@@ -221,6 +227,7 @@ class Brain {
     this.numHiddenNeurons = numHiddenNeurons;
     this.allNeurons = new ArrayList<Neuron>();
 
+    // sensor
     this.sensePosX = new Neuron(this, "sensePosX", NeuronType.INPUT);
     this.sensePosY = new Neuron(this, "sensePosY", NeuronType.INPUT);
     this.senseOsc = new Neuron(this, "senseOsc", NeuronType.INPUT);
@@ -228,15 +235,21 @@ class Brain {
 
     this.lastMoveX = new Neuron(this, "lastMoveX", NeuronType.INPUT);
     this.lastMoveY = new Neuron(this, "lastMoveY", NeuronType.INPUT);
+
+    this.senseMemory = new Neuron(this, "senseMemory", NeuronType.INPUT);
     
+    // hidden
     this.hiddenNeurons = new ArrayList<Neuron>();
     for (int i=0;i<numHiddenNeurons;i++) {
       this.hiddenNeurons.add(
         new Neuron(this, "hidden", NeuronType.HIDDEN, i));
     }
     
+    // output
     this.moveX = new Neuron(this, "moveX", NeuronType.OUTPUT);
     this.moveY = new Neuron(this, "moveY", NeuronType.OUTPUT);
+    
+    this.outMemory = new Neuron(this, "outMemory", NeuronType.OUTPUT);
  
   }
 

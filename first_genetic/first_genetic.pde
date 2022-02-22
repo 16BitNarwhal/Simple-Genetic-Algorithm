@@ -1,5 +1,5 @@
 Population pop;
-String savePrefix = "gen_A";
+String savePrefix = "gen_corners_";
 
 HashMap<Integer, Boolean> keyMap = new HashMap<Integer, Boolean>();
 
@@ -17,7 +17,7 @@ void draw() {
   showStats();
 
   // automatic save
-  if (pop.gen%100==0 && pop.steps==0) {
+  if (pop.gen%100==0 && lastSaved >= 300) {
     Saver save = new Saver();
     save.savePopulation(pop, savePrefix+pop.gen);
     lastSaved=0;
@@ -36,8 +36,8 @@ void draw() {
 void showStats() {
   textSize(32);
   fill(0);
-  text("Gen: " + pop.gen, width/2, height-15);
-  text("Prev Result: " + pop.result, 20, height-15);
+  text("Gen: " + pop.gen, width/2, height-20);
+  text("Prev Result: " + pop.result, 20, height-20);
 }
 
 void keyPressed() {

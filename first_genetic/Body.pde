@@ -60,38 +60,43 @@ class Body {
   }
 
   void naturalSelection() {
-    // right half of screen survives
-    if (pos.x >= WIDTH/2) {
+    // // right half of screen survives
+    // if (pos.x >= WIDTH-WIDTH/8) {
+    //   alive = true;
+    // } else {
+    //   alive = false;
+    // }
+
+    // // circle at center of screen
+    // PVector center = new PVector(WIDTH/2, HEIGHT/2);
+    // if (pos.dist(center) <= 50) {
+    //   alive = true;
+    // } else {
+    //   alive = false;
+    // }
+
+    // four corners
+    if (pos.x <= WIDTH/3 && pos.y <= HEIGHT/3) {
+      alive = true;
+    } else if (pos.x >= WIDTH-WIDTH/3 && pos.y >= HEIGHT-HEIGHT/3) {
+      alive = true;
+    } else if (pos.x >= WIDTH-WIDTH/3 && pos.y <= HEIGHT/3) {
+      alive = true;
+    } else if (pos.x <= WIDTH/3 && pos.y >= HEIGHT-HEIGHT/3) {
       alive = true;
     } else {
       alive = false;
     }
-
-    // // circle radius 200 at center of screen
-    // PVector center = new PVector(WIDTH/2, HEIGHT/2);
-    // if (pos.dist(center) <= 200) {
-    //   alive = true;
-    // } else {
-    //   alive = false;
-    // }
-
-    // // four corners
-    // if (pos.x <= WIDTH/3 && pos.y <= HEIGHT/3) {
-    //   alive = true;
-    // } else if (pos.x >= WIDTH-WIDTH/3 && pos.y >= HEIGHT-HEIGHT/3) {
-    //   alive = true;
-    // } else if (pos.x >= WIDTH-WIDTH/3 && pos.y <= HEIGHT/3) {
-    //   alive = true;
-    // } else if (pos.x <= WIDTH/3 && pos.y >= HEIGHT-HEIGHT/3) {
-    //   alive = true;
-    // } else {
-    //   alive = false;
-    // }
   }
 
   PVector getRandomPos() {
     int x = Math.round(random(0, WIDTH-1));
     int y = Math.round(random(0, HEIGHT-1));
+    while (occupied[x][y] != null) {
+      x = Math.round(random(0, WIDTH-1));
+      y = Math.round(random(0, HEIGHT-1));
+    }
+    occupied[x][y] = this;
     return new PVector(x, y);
   }
 
