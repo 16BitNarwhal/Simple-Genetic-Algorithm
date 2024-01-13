@@ -84,6 +84,10 @@ Collision affects the results drastically as the dots can get stuck to each othe
 
 When the dots form a pattern after a hundred generations or so, it's difficult for them to change their pattern. I think this could be due to a low mutation rate (I haven't checked yet) or the way dots inherit from their parents could be weird. 
 
+The image below is what the neurons look like after training for several hundred generations (generated with Python, Matplotlib and NetworkX based on the save states of a generation)
+![image](https://github.com/16BitNarwhal/Simple-Genetic-Algorithm/assets/31218485/85efe7f3-6ddf-450f-ad37-152f13a974ce)
+
+
 ## Todo (may or may not do them)
 - [x] save and load the population
 - [x] new sensor or output neurons
